@@ -3,4 +3,11 @@
  * simple package for learning purpose
  */
 
-echo 'hello world';
+use Afs\Src\Main;
+
+/**
+ * required composer autoload file
+ */
+require "vendor/autoload.php";
+
+echo (new Main)->sayHello();
