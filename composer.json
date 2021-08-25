@@ -1,0 +1,13 @@
+{
+    "name": "afshin/hello_world",
+    "description": "simple package for learning purpose",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "afshin hatampour",
+            "email": "afshin89hatampour@gmail.com"
+        }
+    ],
+    "require": {}
+}
