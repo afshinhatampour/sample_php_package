@@ -10,6 +10,6 @@
         }
     ],
     "require": {
-        "composer require guzzlehttp/guzzle": "7.3.0"
+        "guzzlehttp/guzzle": "7.3.0"
     }
 }
