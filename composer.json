@@ -9,5 +9,7 @@
             "email": "afshin89hatampour@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "composer require guzzlehttp/guzzle": "7.3.0"
+    }
 }
