@@ -1,0 +1,14 @@
+{
+  "Url": "https://apicoret.mci.ir/",
+  "User": {
+    "UserName": "Api",
+    "Password": "test"
+  },
+  "DeviceId": "",
+  "AuthTokenCacheTimeOffset": 100000,
+  "ServiceTokenCacheTimeOffset": 100000,
+  "EnableCaching": true,
+  "apiActive": true,
+  "globalCacheTimeStamp": "2007-10-27T00:51:57Z",
+  "globalCacheTimeOut": 100
+}
