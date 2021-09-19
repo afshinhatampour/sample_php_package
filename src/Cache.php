@@ -1,6 +1,6 @@
 <?php
 
-namespace Afs\Src;
+namespace Mci\Behsa;
 
 use Phpfastcache\Exceptions\PhpfastcacheDriverCheckException;
 use Phpfastcache\Exceptions\PhpfastcacheDriverException;
@@ -30,7 +30,7 @@ class Cache {
      * @throws PhpfastcacheLogicException
      * @throws ReflectionException
      */
-    public function __construct($driver)
+    public function __construct($driver = 'Files')
     {
         $this->driver = $driver;
         $this->cache = new Psr16Adapter($this->driver);
@@ -45,6 +45,16 @@ class Cache {
     public function get($key)
     {
         return $this->cache->get($key);
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     * @throws PhpfastcacheSimpleCacheException
+     */
+    public function has($key)
+    {
+        return $this->cache->has($key);
     }
 
     /**
@@ -68,7 +78,7 @@ class Cache {
      */
     public function setByExpireDuration($key, $value, $ttl = 3600)
     {
-        return $this->cache->set($key, $value)->expireAfter($ttl);
+        return $this->cache->set($key, $value, $ttl);
     }
 
     public function delete($key)
@@ -80,7 +90,7 @@ class Cache {
      * @return bool
      * @throws PhpfastcacheSimpleCacheException
      */
-    public function deleteAll()
+    public function clear()
     {
         return $this->cache->clear();
     }

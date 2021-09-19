@@ -10,5 +10,6 @@
   "EnableCaching": true,
   "apiActive": true,
   "globalCacheTimeStamp": "2007-10-27T00:51:57Z",
-  "globalCacheTimeOut": 100
+  "globalCacheTimeOut": 100,
+  "cacheDriver": "Files"
 }

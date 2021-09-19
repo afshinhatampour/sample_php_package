@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Afs\Src;
+namespace Mci\Behsa;
 
 
 /**
@@ -14,12 +14,14 @@ class Response
     /**
      * @param $data
      * @param $message
+     * @param $fromCache
      * @param $code
      * @return array
      */
-    public function getSuccessResponse($data, $message, $code)
+    public function getSuccessResponse($data, $message,$fromCache, $code)
     {
         return [
+            'cache_data' => $fromCache,
             'data' => $data,
             'message' => $message,
             'code' => $code

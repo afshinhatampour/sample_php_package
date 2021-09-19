@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Afs\Src;
+namespace Mci\Behsa;
 
 /**
  * Class Config
@@ -15,6 +15,11 @@ class Config
     public $info;
 
     /**
+     * config json file name
+     */
+    const CONFIG_JSON_FILE_NAME = 'mci-behsa-config.json';
+
+    /**
      * Config constructor.
      */
     public function __construct()
@@ -24,7 +29,14 @@ class Config
 
     private function getDataFromJsonConfigFile()
     {
-        $this->info = file_get_contents('config.json');
+        if (file_exists(self::CONFIG_JSON_FILE_NAME)) {
+            $this->info = file_get_contents(self::CONFIG_JSON_FILE_NAME);
+        } elseif (file_exists('../mci-behsa-config.json')) {
+            $this->info = file_get_contents(self::CONFIG_JSON_FILE_NAME);
+        } else {
+            die('cant find config.json file');
+        }
+
     }
 
     /**
@@ -33,6 +45,6 @@ class Config
      */
     public function get($index)
     {
-       return json_decode($this->info)->$index;
+        return json_decode($this->info)->$index;
     }
 }

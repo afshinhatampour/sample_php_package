@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Afs\Src;
+namespace Mci\Behsa;
 
 
 interface Concrete
@@ -21,11 +21,12 @@ interface Concrete
     public function serviceToken($token);
 
     /**
+     * @param $authToken
      * @param $serviceToken
      * @param $version
      * @return mixed
      */
-    public function getProductTypeList($serviceToken, $version);
+    public function getProductTypeList($authToken, $serviceToken, $version);
 
     /**
      * @param $productId

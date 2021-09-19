@@ -1,10 +1,7 @@
 <?php
-/**
- * simple package for learning purpose
- */
 
-use Afs\Src\Config;
-use Afs\Src\HttpClient;
+use Mci\Behsa\Config;
+use Mci\Behsa\MciBehsa;
 
 /**
  * required composer autoload file
@@ -27,38 +24,58 @@ $orderUrl = [
     'orderId' => "684"
 ];
 
-$indexes = (new Config())->info;
-$indexes = json_decode($indexes);
+$resumeOrderData = [
+    "msisdn" => "989187946870",
+    "orderId" => "945",
+    "fwdString" => "687652*85*44125876*20000*945*6"
+];
 
 $config = new Config();
 
-echo $config->get('User')->UserName;
+$mciBehsaWebService = new MciBehsa();
 
-$mciBehsa = new HttpClient();
+// Get user params
+$username = $config->get('User')->UserName;
+$userPassword = $config->get('User')->Password;
 
-// login and get token
-$token = $mciBehsa->authenticate($config->get('User')->UserName, $config->get('User')->Password);
+$pre = '<pre>';
+$closePre = '</pre>';
+$tokenIndex = 'token';
+$serviceTokenIndex = 'serviceToken';
 
-// get service token
-$serviceToken = $mciBehsa->serviceToken($token['data']['token']);
+// Auth token
+$token = $mciBehsaWebService->authenticate();
+echo 'auth token : ' . $pre;
+var_dump($token['data']['token']);
+echo $closePre;
 
-// get product type list
-$productTypeList = $mciBehsa->getProductTypeList($serviceToken['data']['serviceToken'], 1);
+// Service token
+$serviceToken = $mciBehsaWebService->serviceToken();
+echo 'service token : ' . $pre;
+var_dump($serviceToken['data']['serviceToken']);
+echo $closePre;
 
-// get product list from specific product type
-$productList = $mciBehsa->getProductList(1, $serviceToken['data']['serviceToken'], 1);
+// Get product type list
+$productType = $mciBehsaWebService->getProductTypeList();
+echo 'product types: ' . $pre;
+var_dump($productType);
+echo $closePre;
 
-// get order status
-$order = $mciBehsa->requestOrder($orderParams, $serviceToken['data']['serviceToken'], 1);
+// Get list of product by product type id
+$productList = $mciBehsaWebService->getProductList(1);
+echo 'product list : ' . $pre;
+var_dump($productList);
+echo $closePre;
 
-// get payment link
-$paymentUrl = $mciBehsa->getPaymentUrl($orderUrl, $serviceToken['data']['serviceToken'], 1);
+// Request order
+$requestOrder = $mciBehsaWebService->requestOrder($orderParams, 1);
+echo 'request order ' . $pre;
+var_dump($requestOrder);
+echo $closePre;
 
+// Payment url
+$getPaymentUrl = $mciBehsaWebService->getPaymentUrl($orderUrl, 1);
+echo 'Payment url ' . $pre;
+var_dump($getPaymentUrl);
+echo $closePre;
 
-// get config
-$config = $mciBehsa->getConfig($serviceToken['data']['serviceToken']);
-echo '<pre>';
-var_dump($config);
-echo '</pre>';
-
-//var_dump($paymentUrl);
