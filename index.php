@@ -2,6 +2,7 @@
 
 use Mci\Behsa\Config;
 use Mci\Behsa\MciBehsa;
+use Mci\Behsa\Cache;
 
 /**
  * required composer autoload file
@@ -31,7 +32,7 @@ $resumeOrderData = [
 ];
 
 $config = new Config();
-
+//(new Cache())->clear();die();
 $mciBehsaWebService = new MciBehsa();
 
 // Get user params

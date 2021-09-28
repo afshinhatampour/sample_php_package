@@ -31,8 +31,8 @@ class Config
     {
         if (file_exists(self::CONFIG_JSON_FILE_NAME)) {
             $this->info = file_get_contents(self::CONFIG_JSON_FILE_NAME);
-        } elseif (file_exists('../mci-behsa-config.json')) {
-            $this->info = file_get_contents(self::CONFIG_JSON_FILE_NAME);
+        } elseif (file_exists('../' . self::CONFIG_JSON_FILE_NAME)) {
+            $this->info = file_get_contents('../' . self::CONFIG_JSON_FILE_NAME);
         } else {
             die('cant find config.json file');
         }
