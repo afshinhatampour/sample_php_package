@@ -53,6 +53,16 @@ class MciBehsa
     const SUCCESS_MESSAGE = '/success';
 
     /**
+     * @string
+     */
+    const SERVICE_TOKEN_CONST = 'serviceToken';
+
+    /**
+     * @string
+     */
+    const TOKEN_CONST = 'token';
+
+    /**
      * @var mixed
      */
     private $cacheDriver;
@@ -65,7 +75,7 @@ class MciBehsa
     /**
      * @var Cache
      */
-    private $cache;
+    public $cache;
 
     /**
      * @var HttpClient
@@ -134,7 +144,7 @@ class MciBehsa
             return $this->responder->getSuccessResponse($data, self::SUCCESS_MESSAGE,true, 200);
         }
 
-        $data = $this->httpClient->serviceToken($token['data']['token']);
+        $data = $this->httpClient->serviceToken($token['data'][self::TOKEN_CONST]);
 
         if ($data instanceof GuzzleException) {
             return $this->responder->getExceptionResponse($data->getResponse());
@@ -158,7 +168,7 @@ class MciBehsa
             return $this->responder->getSuccessResponse($data, self::SUCCESS_MESSAGE,true, 200);
         }
 
-        $data = $this->httpClient->getProductTypeList($serviceToken['data']['serviceToken']);
+        $data = $this->httpClient->getProductTypeList($serviceToken['data'][self::SERVICE_TOKEN_CONST]);
 
         if ($data instanceof GuzzleException) {
             return $this->responder->getExceptionResponse($data->getResponse());
@@ -170,7 +180,6 @@ class MciBehsa
     }
 
     /**
-     * @param $authToken
      * @return bool
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
@@ -179,7 +188,7 @@ class MciBehsa
     {
         $authToken = $this->authenticate();
         $oldChangeProductTimeStamp = $this->cache->get(self::GLOBAL_CACHE_TIME_STAMP);
-        $newChangeProductTimeStamp = $this->httpClient->getConfig($authToken['data']['token']);
+        $newChangeProductTimeStamp = $this->httpClient->getConfig($authToken['data'][self::TOKEN_CONST]);
         $newChangeProductTimeStamp = $newChangeProductTimeStamp['globalCacheTimeStamp'];
 
         if ($oldChangeProductTimeStamp !== $newChangeProductTimeStamp) {
@@ -207,7 +216,7 @@ class MciBehsa
             return $this->responder->getSuccessResponse($cacheData, self::SUCCESS_MESSAGE, true, 200);
         }
 
-        $newData = $this->httpClient->getProductList($productId, $serviceToken['data']['serviceToken']);
+        $newData = $this->httpClient->getProductList($productId, $serviceToken['data'][self::SERVICE_TOKEN_CONST]);
         $this->cache->setByExpireDuration(self::PRODUCT_LIST_PREFIX . $productId, $newData, 3600);
 
         return $this->responder->getSuccessResponse($newData, self::SUCCESS_MESSAGE,false, 200);
@@ -216,7 +225,7 @@ class MciBehsa
     public function checkGlobalCacheTimeOut()
     {
         $authToken = $this->authenticate();
-        $newGlobalCacheTimeOut = $this->httpClient->getConfig($authToken['data']['token']);
+        $newGlobalCacheTimeOut = $this->httpClient->getConfig($authToken['data'][self::TOKEN_CONST]);
         $newGlobalCacheTimeOut = $newGlobalCacheTimeOut['globalCacheTimeOutMS'];
         $this->cache->setByExpireDuration(self::GLOBAL_CACHE_TIME_OUT_MS, $newGlobalCacheTimeOut, 0);
     }
@@ -231,7 +240,7 @@ class MciBehsa
     public function requestOrder($params, $version)
     {
         $serviceToken = $this->serviceToken();
-        $data = $this->httpClient->requestOrder($params, $serviceToken['data']['serviceToken'], $version);
+        $data = $this->httpClient->requestOrder($params, $serviceToken['data'][self::SERVICE_TOKEN_CONST], $version);
 
         return $this->responder->getSuccessResponse($data, self::SUCCESS_MESSAGE, false, 200);
     }
@@ -246,7 +255,7 @@ class MciBehsa
     public function getPaymentUrl($params, $version)
     {
         $serviceToken = $this->serviceToken();
-        $data = $this->httpClient->getPaymentUrl($params, $serviceToken['data']['serviceToken'], $version);
+        $data = $this->httpClient->getPaymentUrl($params, $serviceToken['data'][self::SERVICE_TOKEN_CONST], $version);
 
         return $this->responder->getSuccessResponse($data, self::SUCCESS_MESSAGE, false, 200);
     }
@@ -259,7 +268,7 @@ class MciBehsa
     public function getConfig()
     {
         $serviceToken = $this->serviceToken();
-        return $this->httpClient->getConfig($serviceToken['data']['serviceToken']);
+        return $this->httpClient->getConfig($serviceToken['data'][self::SERVICE_TOKEN_CONST]);
     }
 
     /**
@@ -271,7 +280,7 @@ class MciBehsa
     public function getResumeOrder($params)
     {
         $serviceToke = $this->serviceToken();
-        return $this->httpClient->resumeOrder($serviceToke['data']['serviceToken'], $params);
+        return $this->httpClient->resumeOrder($serviceToke['data'][self::SERVICE_TOKEN_CONST], $params);
     }
 
     /**

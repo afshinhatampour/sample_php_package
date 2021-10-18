@@ -49,7 +49,7 @@ class HttpClient
      * Payment link url suffix
      * @string
      */
-    const REQUEST_ORDER_SUFFIX = 'api/call/getPaymentUrlForOrderId';
+    const REQUEST_ORDER_SUFFIX = 'api/call/requestOrder';
 
     /**
      * Get config link url suffix
@@ -146,7 +146,7 @@ class HttpClient
     /**
      * @param $username
      * @param $password
-     * @return Exception|GuzzleException
+     * @return Exception|GuzzleException|mixed
      */
     public function authenticate($username, $password)
     {
@@ -158,7 +158,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -181,7 +181,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -205,7 +205,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -233,7 +233,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -259,7 +259,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -285,7 +285,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -304,7 +304,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getCode());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -326,7 +326,7 @@ class HttpClient
                 self::HTTP_BODY_JSON_INDEX => $params
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
 
         return json_decode($data->getBody(), true);
@@ -352,7 +352,7 @@ class HttpClient
                 ]
             ]);
         } catch (GuzzleException $exception) {
-            die($exception->getMessage());
+            return $exception;
         }
         return json_decode($data->getBody(), true);
     }
