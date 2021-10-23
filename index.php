@@ -11,8 +11,8 @@ require "vendor/autoload.php";
 
 $orderParams = [
     "orderType" => "200",
-    "sourceMSISDN" => "9100038202",
-    "destinationMSISDN" => "9100038202",
+    "sourceMSISDN" => "9922096585",
+    "destinationMSISDN" => "9922096585",
     "productId" => "1",
     "payloadId" => "1",
     "payloadAmount" => "10000",
@@ -46,37 +46,31 @@ $serviceTokenIndex = 'serviceToken';
 
 // Auth token
 $token = $mciBehsaWebService->authenticate();
-echo 'auth token : ' . $pre;
-var_dump($token['data']['token']);
-echo $closePre;
+
 
 // Service token
 $serviceToken = $mciBehsaWebService->serviceToken();
-echo 'service token : ' . $pre;
-var_dump($serviceToken['data']['serviceToken']);
-echo $closePre;
+
 
 // Get product type list
 $productType = $mciBehsaWebService->getProductTypeList();
-echo 'product types: ' . $pre;
-var_dump($productType);
-echo $closePre;
+
 
 // Get list of product by product type id
 $productList = $mciBehsaWebService->getProductList(1);
-echo 'product list : ' . $pre;
-var_dump($productList);
-echo $closePre;
+
 
 // Request order
 $requestOrder = $mciBehsaWebService->requestOrder($orderParams, 1);
-echo 'request order ' . $pre;
-var_dump($requestOrder);
-echo $closePre;
 
 // Payment url
-$getPaymentUrl = $mciBehsaWebService->getPaymentUrl($orderUrl, 1);
-echo 'Payment url ' . $pre;
-var_dump($getPaymentUrl);
-echo $closePre;
+$getPaymentUrl = $mciBehsaWebService->getPaymentUrl([
+    'deepLinkUrl' => 'web.whatsapp.com',
+    'orderId' => $requestOrder['data']['orderId']
+], 1);
+
+// request status
+$getrequestStatus = $mciBehsaWebService->getInformOrderStatus($requestOrder['data']['orderId']);
+var_dump($getrequestStatus);
+
 

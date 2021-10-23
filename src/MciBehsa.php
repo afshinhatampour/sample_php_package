@@ -280,17 +280,20 @@ class MciBehsa
     public function getResumeOrder($params)
     {
         $serviceToke = $this->serviceToken();
+
         return $this->httpClient->resumeOrder($serviceToke['data'][self::SERVICE_TOKEN_CONST], $params);
     }
 
     /**
      * @param $orderId
-     * @param $orderStatus
-     * @param $comment
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
-    public function getInformOrderStatus($orderId, $orderStatus, $comment)
+    public function getInformOrderStatus($orderId)
     {
-        return $this->httpClient->informOrderStatus($orderId, $orderStatus, $comment);
+        $authenticate = $this->authenticate();
+
+        return $this->httpClient->informOrderStatus($orderId, $authenticate['data'][self::TOKEN_CONST]);
     }
 }

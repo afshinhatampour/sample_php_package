@@ -67,7 +67,7 @@ class HttpClient
      * Order inform status link url suffix
      * @string
      */
-    const ORDER_INFORM_STATUS_SUFFIX = 'api/call/informorder/status';
+    const ORDER_INFORM_STATUS_SUFFIX = 'api/call/getOrdersStatus';
 
     /**
      * Http client header string
@@ -321,7 +321,7 @@ class HttpClient
             $data = $this->httpClient->request('POST', self::$mainUrl . self::RESUME_ORDER_SUFFIX, [
                 self::HTTP_CLIENT_HEADER_NAME => [
                     'X_Service_Token' => $serviceToken,
-                    self::HTTP_HEADER_CONTENT_TYPE => 'application-json'
+                    self::HTTP_HEADER_CONTENT_TYPE => self::APPLICATION_JSON
                 ],
                 self::HTTP_BODY_JSON_INDEX => $params
             ]);
@@ -334,21 +334,23 @@ class HttpClient
 
     /**
      * @param $orderId
-     * @param $orderStatus
-     * @param $comment
+     * @param $authToken
+     * @param int $version
      * @return mixed
+     * @throws Exception
      */
-    public function informOrderStatus($orderId, $orderStatus, $comment)
+    public function informOrderStatus($orderId, $authToken, $version = 1)
     {
         try {
-            $data = $this->httpClient->request('POST', self::$mainUrl . self::ORDER_INFORM_STATUS_SUFFIX, [
+            $data = $this->httpClient->request('POST', 'https://apicoret.mci.ir/api/call/getOrdersStatus?ver=1', [
                 self::HTTP_CLIENT_HEADER_NAME => [
-                    self::HTTP_HEADER_CONTENT_TYPE => 'application-json'
+                    self::X_AUTH_TOKEN => $authToken,
+                    self::HTTP_HEADER_CONTENT_TYPE => self::APPLICATION_JSON
                 ],
                 self::HTTP_BODY_JSON_INDEX => [
-                    'OrderId' => $orderId,
-                    'OrderStatus' => $orderStatus,
-                    'Comment' => $comment
+                    "orderId" => $orderId,
+                    "fromTimeStamp" => "1626112563",
+                    "toTimeStamp" => "1626512580"
                 ]
             ]);
         } catch (GuzzleException $exception) {
